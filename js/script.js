@@ -13,6 +13,7 @@ var scene;
 var camera;
 
 var sphere;
+var sperm;
 
 function init(){
 
