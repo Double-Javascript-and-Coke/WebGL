@@ -38,7 +38,7 @@ function init(){
     //set the renderer size
     renderer.setSize(WIDTH, HEIGHT);
 
-    var docElement = document.getElementById("myDivContainer");
+    var docElement = document.getElementById("main-container");
     docElement.appendChild(renderer.domElement);
 
     //set the clear colour
@@ -68,7 +68,7 @@ function init(){
 
     camera.position.set(0, 3, 30);
 
-    controls = new THREE.FirstPersonControls(camera, document.getElementById('myDivContainer'));
+    controls = new THREE.FirstPersonControls(camera, document.getElementById('main-container'));
 
     controls.movementSpeed = 200;
     controls.lookSpeed = 0.06;

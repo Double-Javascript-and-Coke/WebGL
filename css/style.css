@@ -2,3 +2,9 @@
     max-width: 100%;
     min-height: 600px;
 }
+
+#main-container {
+    position: absolute;
+    max-width: 100%;
+    min-height: 600px;
+}
