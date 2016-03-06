@@ -1,8 +1,8 @@
 window.onload = init;
 
 //canvas size
-var WIDTH = 800;
-var HEIGHT = 600;
+var WIDTH = window.innerWidth;
+var HEIGHT = window.innerHeight;
 
 //Camera properties
 var VIEW_ANGLE = 45;
