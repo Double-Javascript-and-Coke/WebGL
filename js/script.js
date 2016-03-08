@@ -93,9 +93,9 @@ function animate() {
     if (tick < 0) tick = 0;
 
     if (delta > 0) {
-        options.position.x = Math.random(tick * spawnOptions.horizontalSpeed) * 20;
-        options.position.y = Math.random(tick * spawnOptions.verticalSpeed) * 10;
-        options.position.z = Math.random(tick * spawnOptions.horizontalSpeed + spawnOptions.verticalSpeed) * 5;
+        particleOptions.position.x = Math.random(tick * spawnOptions.horizontalSpeed) * 20;
+        particleOptions.position.y = Math.random(tick * spawnOptions.verticalSpeed) * 10;
+        particleOptions.position.z = Math.random(tick * spawnOptions.horizontalSpeed + spawnOptions.verticalSpeed) * 5;
 
         for (var x = 0; x < spawnOptions.spawnRate * delta; x++) {
             particle.spawnParticle(particleOptions);
