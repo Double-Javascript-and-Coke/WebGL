@@ -1,153 +1,121 @@
-window.onload = init;
-
-//canvas size
-var WIDTH = window.innerWidth;
-var HEIGHT = window.innerHeight;
-
-//Camera properties
-var VIEW_ANGLE = 45;
-var ASPECT_RATIO = WIDTH / HEIGHT;
-var NEAR_CLIPPING_PLANE = 0.1;
-var FAR_CLIPPING_PLANE = 10000;
-
-//declare variables for three.min.js
-var renderer;
-var scene;
 var camera;
-
-//stats infomation for scene
-var stats;
-
-//used to determine time between scene rendering
-var clock = new THREE.Clock();
-
-// handles the mouse events
-var mouseOverCanvas
-var mouseDown
-
-//store three.min.js  controls
+var tick = 0;
+var scene;
+var renderer;
+clock = new THREE.Clock(true);
 var controls;
+var container;
+var options;
+var spawnOptions;
+var particle;
 
-var seaMesh;
-var landMesh;
+init();
+animate();
 
-function init(){
-    //create webgl renderer
-    renderer = new THREE.WebGLRenderer();
-
-    //set the renderer size
-    renderer.setSize(WIDTH, HEIGHT);
-
-    var docElement = document.getElementById("main-container");
-    docElement.appendChild(renderer.domElement);
-
-    //set the clear colour
-    renderer.setClearColor("rgb(135,206, 250)");
-
-    //add an event to set if mouse is over our canvas
-    renderer.domElement.onmouseover = function(e){mouseOverCanvas = true;}
-    renderer.domElement.onmousemove = function(e){mouseOverCanvas = true;}
-    renderer.domElement.onmouseout = function(e){mouseOverCanvas = false;}
+function init() {
 
 
-    renderer.domElement.onmousedown = function(e){mouseOverCanvas = true;}
-    renderer.domElement.onmouseup = function(e){mouseOverCanvas = false;}
+    container = document.getElementById('main-container');
+    document.body.appendChild(container);
 
     //stats
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
     stats.domElement.style.zIndex = 100;
-    docElement.appendChild(stats.domElement);
+    container.appendChild(stats.domElement);
 
-    //create webgl scene
+
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
+
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT_RATIO,
-        NEAR_CLIPPING_PLANE, FAR_CLIPPING_PLANE);
+    particle = new THREE.GPUParticleSystem({maxParticles: 250000});
+    scene.add(particle);
 
-    camera.position.set(0, 3, 30);
 
-    controls = new THREE.FirstPersonControls(camera, document.getElementById('main-container'));
+    // options passed during each spawned
+    particleOptions = {
+        position: new THREE.Vector3(),
+        positionRandomness: 100,
+        velocity: new THREE.Vector3(),
+        velocityRandomness: 360,
+        color: 0xf5f5f5,
+        colorRandomness: 0,
+        turbulence: 100,
+        lifetime: 1.1,
+        size: 10,
+        sizeRandomness: 5
+    };
 
-    controls.movementSpeed = 200;
-    controls.lookSpeed = 0.06;
-    controls.activeLook = false;
-
-    initScene();
-
-    render();
-}
-
-function initScene() {
-
-    var seaGeometry = new THREE.PlaneGeometry(10000, 10000, 100, 100);
-    seaGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI /2 ));
-
-    var seaMaterial = new THREE.MeshBasicMaterial({color:0x1e90ff});
-
-    seaMesh = new THREE.Mesh(seaGeometry, seaMaterial);
-
-    seaMesh.position.y = -10;
-
-    scene.add(seaMesh);
-
-    var landGeometry = new THREE.PlaneGeometry(1500, 1500, 100, 100);
-    landGeometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI/2));
-
-    for(var i = 0; i < landGeometry.vertices.length; i++){
-        var vertex = landGeometry.vertices[i];
-        vertex.x += Math.random() * 20 - 10;
-        vertex.y += Math.random() * 2;
-        vertex.z += Math.random() * 20 - 10;
+    spawnOptions = {
+        spawnRate: 15000,
+        horizontalSpeed: 5,
+        verticalSpeed: 5,
+        timeScale: 0.1,
     }
 
-    for(var i = 0; i < landGeometry.faces.length; i++){
-        var face = landGeometry.faces[i];
-        face.vertexColors[0] =
-            new THREE.Color("rgb(0,255,0)").setHSL(Math.random() * 0.2 + 0.25, 0.75, 0.75);
-        face.vertexColors[1] =
-            new THREE.Color("rgb(0,255,0)").setHSL(Math.random() * 0.2 + 0.25, 0.75, 0.75);
-        face.vertexColors[2] =
-            new THREE.Color("rgb(0,255,0)").setHSL(Math.random() * 0.2 + 0.25, 0.75, 0.75);
-    }
 
-    //create land material and mesh
-    var landMaterial = new THREE.MeshBasicMaterial({vertexColors: THREE.VertexColors});
-    landMesh = new THREE.Mesh(landGeometry, landMaterial);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
 
-    landMesh.position.y = -5;
+    // setup controls
+    controls = new THREE.FirstPersonControls(camera, renderer.domElement);
+    controls.rotateSpeed = 5.0;
+    controls.zoomSpeed = 2.2;
+    controls.panSpeed = 1;
+    controls.dynamicDampingFactor = 0.3;
 
-    scene.add(landMesh);
+    window.addEventListener('resize', onWindowResize, false);
 
-    //A basic light
-
-    var light = new THREE.DirectionalLight(0xffffff, 1.5);
-    light.position.set(1,1,1);
-    scene.add(light);
-    var light2 = new THREE.DirectionalLight(0xffffff, 0.75);
-    light2.position.set(-1,-0.5,-1);
-    scene.add(light2);
 }
 
+function onWindowResize() {
 
-function render() {
-    //get the time since this function was called
-    controls.activeLook = false;
-    if(mouseOverCanvas){
-        if(mouseDown){
-            controls.activeLook = true;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+}
+
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    controls.update();
+
+    var delta = clock.getDelta() * spawnOptions.timeScale;
+    tick += delta;
+
+    if (tick < 0) tick = 0;
+
+    if (delta > 0) {
+        options.position.x = Math.random(tick * spawnOptions.horizontalSpeed) * 20;
+        options.position.y = Math.random(tick * spawnOptions.verticalSpeed) * 10;
+        options.position.z = Math.random(tick * spawnOptions.horizontalSpeed + spawnOptions.verticalSpeed) * 5;
+
+        for (var x = 0; x < spawnOptions.spawnRate * delta; x++) {
+            particle.spawnParticle(particleOptions);
         }
     }
 
-    var deltaTime = clock.getDelta();
+    particle.update(tick);
+    update();
+    render();
 
-    //update the controls
-    controls.update(deltaTime);
+}
+
+function update()
+{
+    // update the FPS / stats counter
+    stats.update();
+}
+
+function render() {
 
     renderer.render(scene, camera);
 
-    stats.update();
-
-    requestAnimationFrame(render);
 }
