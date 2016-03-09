@@ -70,6 +70,29 @@ function init() {
 
     window.addEventListener('resize', onWindowResize, false);
 
+
+    var light = new THREE.DirectionalLight(0xffffff, 10.5);
+    light.position.set(1,1,1);
+    scene.add(light);
+    var light2 = new THREE.DirectionalLight(0xffffff, 5.75);
+    light2.position.set(-1,-0.5,-1);
+    scene.add(light2);
+
+    myColladaLoader = new THREE.ColladaLoader();
+    myColladaLoader.options.convertUpAxis = true;
+
+    myColladaLoader.load('sperm.dae',function(collada){
+        spermModel = collada.scene;
+
+        spermModel.position.x = 0;
+        spermModel.position.y = 5;
+        spermModel.position.z = -500;
+
+        spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
+        spermModel.updateMatrix();
+
+        scene.add(spermModel);
+    });
 }
 
 function onWindowResize() {
