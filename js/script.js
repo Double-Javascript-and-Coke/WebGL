@@ -2,7 +2,7 @@ var camera;
 var tick = 0;
 var scene;
 var renderer;
-clock = new THREE.Clock(true);
+var clock = new THREE.Clock(true);
 var controls;
 var container;
 var options;

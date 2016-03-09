@@ -262,6 +262,33 @@ myColladaLoader.load( 'sperm.dae', function ( collada ) {
 
 }
 
+function animate() {
+
+	requestAnimationFrame(animate);
+
+	controls.update();
+
+	var delta = clock.getDelta() * spawnOptions.timeScale;
+	tick += delta;
+
+	if (tick < 0) tick = 0;
+
+	if (delta > 0) {
+		particleOptions.position.x = Math.random(tick * spawnOptions.horizontalSpeed) * 20;
+		particleOptions.position.y = Math.random(tick * spawnOptions.verticalSpeed) * 10;
+		particleOptions.position.z = Math.random(tick * spawnOptions.horizontalSpeed + spawnOptions.verticalSpeed) * 5;
+
+		for (var x = 0; x < spawnOptions.spawnRate * delta; x++) {
+			particle.spawnParticle(particleOptions);
+		}
+	}
+
+	particle.update(tick);
+	update();
+	render();
+
+}
+
 // The game timer (aka game loop). Called x times per second.
 function render(){
 	// Here we control how the camera looks around the scene.
