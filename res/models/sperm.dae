@@ -2,12 +2,12 @@
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
   <asset>
     <contributor>
-      <author>1025164</author>
+      <author>Ash</author>
       <authoring_tool>OpenCOLLADA for 3ds Max;  ;  </authoring_tool>
-      <source_data>sperm.max</source_data>
+      <source_data>file:///C:/Users/Ash/Downloads/sperm.max</source_data>
     </contributor>
-    <created>2016-03-03T15:39:24</created>
-    <modified>2016-03-03T15:39:24</modified>
+    <created>2016-03-06T21:53:09</created>
+    <modified>2016-03-06T21:53:09</modified>
     <unit name="inch" meter="0.0254"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -36,10 +36,10 @@
               <texture texture="white_texture_jpg-sampler" texcoord="CHANNEL1"/>
             </diffuse>
             <specular>
-              <color>0 0 0 1</color>
+              <color>0.588 0.588 0.588 1</color>
             </specular>
             <shininess>
-              <float>10</float>
+              <float>0</float>
             </shininess>
             <reflective>
               <color>0 0 0 1</color>
@@ -56,24 +56,21 @@
       <extra>
         <technique profile="OpenCOLLADA3dsMax">
           <extended_shader>
-            <apply_reflection_dimming type="bool">0</apply_reflection_dimming>
-            <dim_level type="float">0</dim_level>
-            <falloff type="float">0</falloff>
-            <falloff_type type="integer">0</falloff_type>
-            <index_of_refraction type="float">1.5</index_of_refraction>
-            <opacity_type type="integer">0</opacity_type>
-            <reflection_level type="float">3</reflection_level>
-            <wire_size type="float">1</wire_size>
-            <wire_units type="integer">0</wire_units>
+            <apply_reflection_dimming>0</apply_reflection_dimming>
+            <dim_level>0</dim_level>
+            <falloff_type>0</falloff_type>
+            <index_of_refraction>1.5</index_of_refraction>
+            <opacity_type>0</opacity_type>
+            <reflection_level>3</reflection_level>
+            <wire_size>1</wire_size>
+            <wire_units>0</wire_units>
           </extended_shader>
           <shader>
-            <ambient_diffuse_lock type="bool">0</ambient_diffuse_lock>
-            <ambient_diffuse_texture_lock type="bool">1</ambient_diffuse_texture_lock>
-            <diffuse_specular_lock type="bool">0</diffuse_specular_lock>
-            <self_illumination type="float">0</self_illumination>
-            <soften type="float">0.1</soften>
-            <specular_level type="float">0</specular_level>
-            <use_self_illum_color type="bool">0</use_self_illum_color>
+            <ambient_diffuse_lock>0</ambient_diffuse_lock>
+            <ambient_diffuse_texture_lock>1</ambient_diffuse_texture_lock>
+            <diffuse_specular_lock>0</diffuse_specular_lock>
+            <soften>0.1</soften>
+            <use_self_illum_color>0</use_self_illum_color>
           </shader>
         </technique>
       </extra>
@@ -161,10 +158,10 @@
         </instance_geometry>
         <extra>
           <technique profile="OpenCOLLADA">
-            <cast_shadows type="bool">1</cast_shadows>
-            <primary_visibility type="integer">1</primary_visibility>
-            <receive_shadows type="bool">1</receive_shadows>
-            <secondary_visibility type="integer">1</secondary_visibility>
+            <cast_shadows>1</cast_shadows>
+            <primary_visibility>1</primary_visibility>
+            <receive_shadows>1</receive_shadows>
+            <secondary_visibility>1</secondary_visibility>
           </technique>
         </extra>
       </node>
