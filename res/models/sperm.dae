@@ -137,7 +137,7 @@
   </library_lights>
   <library_images>
     <image id="white_texture_jpg">
-      <init_from>./images/0_white%20texture.jpg</init_from>
+      <init_from>white_texture.jpg</init_from>
     </image>
   </library_images>
   <library_visual_scenes>

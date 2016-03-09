@@ -82,7 +82,7 @@ function init() {
     myColladaLoader = new THREE.ColladaLoader();
     myColladaLoader.options.convertUpAxis = true;
 
-    myColladaLoader.load('sperm.dae',function(collada){
+    myColladaLoader.load('/res/models/sperm.dae',function(collada){
         spermModel = collada.scene;
 
         spermModel.position.x = 0;
