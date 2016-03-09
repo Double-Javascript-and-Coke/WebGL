@@ -13,8 +13,6 @@ init();
 animate();
 
 function init() {
-
-
     container = document.getElementById('main-container');
     document.body.appendChild(container);
 
@@ -72,10 +70,10 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 
 
-    var light = new THREE.DirectionalLight(0xffffff, 10.5);
+    var light = new THREE.DirectionalLight(0xffffff, 5.5);
     light.position.set(1,1,1);
     scene.add(light);
-    var light2 = new THREE.DirectionalLight(0xffffff, 5.75);
+    var light2 = new THREE.DirectionalLight(0xffffff, 3.75);
     light2.position.set(-1,-0.5,-1);
     scene.add(light2);
 
@@ -95,6 +93,8 @@ function init() {
         scene.add(spermModel);
     });
 }
+
+
 
 function onWindowResize() {
 
