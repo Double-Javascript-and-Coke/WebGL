@@ -25,7 +25,6 @@ function init() {
     stats.domElement.style.zIndex = 100;
     container.appendChild(stats.domElement);
 
-
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 1000 );
 
     scene = new THREE.Scene();
@@ -59,14 +58,16 @@ function init() {
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor( "rgb(51, 14, 14)", 1);
     container.appendChild(renderer.domElement);
 
     // setup controls
-    controls = new THREE.FirstPersonControls(camera, renderer.domElement);
-    controls.rotateSpeed = 5.0;
-    controls.zoomSpeed = 2.2;
-    controls.panSpeed = 1;
-    controls.dynamicDampingFactor = 0.3;
+    controls = new THREE.FlyControls(camera, container);
+    controls.movementSpeed = 100;
+    controls.domElement = container;
+    controls.rollSpeed = Math.PI / 24;
+    controls.autoForward = true;
+    controls.dragToLook = false;
 
     window.addEventListener('resize', onWindowResize, false);
 
@@ -108,8 +109,6 @@ function animate() {
 
     requestAnimationFrame(animate);
 
-    controls.update();
-
     var delta = clock.getDelta() * spawnOptions.timeScale;
     tick += delta;
 
@@ -139,6 +138,14 @@ function update()
 
 function render() {
 
+    delta = clock.getDelta();
+
+    //debug
+    //console.log("Delta " + delta);
+
+    controls.update(delta);
+
     renderer.render(scene, camera);
+
 
 }
