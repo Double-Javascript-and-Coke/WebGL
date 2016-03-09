@@ -200,7 +200,7 @@ THREE.GPUParticleSystem = function(options) {
 
     var textureLoader = new THREE.TextureLoader();
 
-    self.particleNoiseTex = textureLoader.load("res/img/spark.png");
+    self.particleNoiseTex = textureLoader.load("res/img/particle.png");
     self.particleNoiseTex.wrapS = self.particleNoiseTex.wrapT = THREE.RepeatWrapping;
 
     self.particleSpriteTex = textureLoader.load("res/img/particle.png");
