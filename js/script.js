@@ -5,35 +5,14 @@ var renderer;
 var clock = new THREE.Clock(true);
 var controls;
 var container;
-var options;
+var particleOptions;
 var spawnOptions;
 var particle;
 var spermModel;
+var eggModel;
 
-colladaLoader = new THREE.ColladaLoader();
-colladaLoader.options.convertUpAxis = true;
-
-colladaLoader.load('res/models/sperm.dae',function(collada){
-    spermModel = collada.scene;
-
-    spermModel.position.x = 0;
-    spermModel.position.y = 0;
-    spermModel.position.z = -600;
-
-    spermModel.traverse( function ( child ) {
-        if ( child instanceof THREE.SkinnedMesh ) {
-            var animation = new THREE.Animation( child, child.geometry.animation );
-            animation.play();
-        }
-    } );
-
-    spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
-    spermModel.updateMatrix();
-
-    init();
-    animate();
-
-});
+init();
+animate();
 
 function init() {
     container = document.getElementById('main-container');
@@ -74,8 +53,48 @@ function init() {
         spawnRate: 15000,
         horizontalSpeed: 5,
         verticalSpeed: 5,
-        timeScale: 0.1,
-    }
+        timeScale: 0.1
+    };
+
+    colladaLoaderSperm = new THREE.ColladaLoader();
+    colladaLoaderEgg = new THREE.ColladaLoader();
+    colladaLoaderSperm.options.convertUpAxis = true;
+
+    colladaLoaderSperm.load('res/models/sperm.dae',function(collada){
+        spermModel = collada.scene;
+
+        spermModel.position.x = 0;
+        spermModel.position.y = 0;
+        spermModel.position.z = -600;
+
+        spermModel.traverse( function ( child ) {
+            if ( child instanceof THREE.SkinnedMesh ) {
+                var animation = new THREE.Animation( child, child.geometry.animation );
+                animation.play();
+            }
+        } );
+
+        spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
+        spermModel.updateMatrix();
+
+        scene.add(spermModel);
+
+
+    });
+
+    colladaLoaderEgg.load('res/models/egg.dae',function(collada) {
+
+        eggModel = collada.scene;
+
+        eggModel.position.x = 0;
+        eggModel.position.y = 0;
+        eggModel.position.z = -1000;
+
+        eggModel.scale.x = eggModel.scale.y = eggModel.scale.z = 2;
+        eggModel.updateMatrix();
+
+        scene.add(eggModel);
+    });
 
 
     renderer = new THREE.WebGLRenderer();
@@ -102,7 +121,7 @@ function init() {
     light2.position.set(-1,-0.5,-1);
     scene.add(light2);
 
-    scene.add(spermModel);
+
 
     //still needs work
     //camera.lookAt(spermModel.position);
@@ -143,11 +162,12 @@ function animate() {
 
 }
 
-function update(){
+function update() {
 
     delta = clock.getDelta();
 
     controls.update(delta);
+
     stats.update();
 
 }
