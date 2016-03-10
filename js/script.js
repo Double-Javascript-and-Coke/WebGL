@@ -8,9 +8,32 @@ var container;
 var options;
 var spawnOptions;
 var particle;
+var spermModel;
 
-init();
-animate();
+colladaLoader = new THREE.ColladaLoader();
+colladaLoader.options.convertUpAxis = true;
+
+colladaLoader.load('res/models/sperm.dae',function(collada){
+    spermModel = collada.scene;
+
+    spermModel.position.x = 0;
+    spermModel.position.y = 0;
+    spermModel.position.z = -600;
+
+    spermModel.traverse( function ( child ) {
+        if ( child instanceof THREE.SkinnedMesh ) {
+            var animation = new THREE.Animation( child, child.geometry.animation );
+            animation.play();
+        }
+    } );
+
+    spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
+    spermModel.updateMatrix();
+
+    init();
+    animate();
+
+});
 
 function init() {
     container = document.getElementById('main-container');
@@ -79,36 +102,10 @@ function init() {
     light2.position.set(-1,-0.5,-1);
     scene.add(light2);
 
-    colladaLoader = new THREE.ColladaLoader();
-    colladaLoader.options.convertUpAxis = true;
-
-    colladaLoader.load('res/models/sperm.dae',function(collada){
-        spermModel = collada.scene;
-
-        spermModel.position.x = 0;
-        spermModel.position.y = 0;
-        spermModel.position.z = -600;
-
-        spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
-
-        spermModel.updateMatrix();
-        spermModel.name = "spermModel";
-
-        spermModel.traverse( function ( child ) {
-            if ( child instanceof THREE.SkinnedMesh ) {
-                var animation = new THREE.Animation( child, child.geometry.animation );
-                animation.play();
-            }
-        } );
-
-        spermModel.updateMatrix();
-        scene.add(spermModel);
-    });
+    scene.add(spermModel);
 
     //still needs work
     //camera.lookAt(spermModel.position);
-
-
 
 }
 
@@ -162,7 +159,6 @@ function render() {
     delta = clock.getDelta();
 
     THREE.AnimationHandler.update( clock.getDelta() );
-
     renderer.render(scene, camera);
 
 }
