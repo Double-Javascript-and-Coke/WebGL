@@ -86,7 +86,7 @@ function init() {
 
     // setup controls
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 100;
+    controls.movementSpeed = 10000;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
@@ -122,8 +122,6 @@ function onWindowResize() {
 
 function animate() {
 
-    requestAnimationFrame(animate);
-
     var delta = clock.getDelta() * spawnOptions.timeScale;
     tick += delta;
 
@@ -158,7 +156,21 @@ function render() {
 
     delta = clock.getDelta();
 
+    var positionMovement = camera.position.y;
+
+    //debug for movement
+    console.log(positionMovement);
+
+    controls.moveForward = false;
+    controls.moveBackward = false;
+    controls.moveLeft = false;
+    controls.moveRight = false;
+
+    camera.position.y = positionMovement;
+
     THREE.AnimationHandler.update( clock.getDelta() );
     renderer.render(scene, camera);
+
+    requestAnimationFrame(animate);
 
 }
