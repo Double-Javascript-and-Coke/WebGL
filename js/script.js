@@ -64,7 +64,7 @@ function init() {
     controls.movementSpeed = 100;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
-    controls.autoForward = true;
+    controls.autoForward = false;
     controls.dragToLook = false;
 
     window.addEventListener('resize', onWindowResize, false);
@@ -84,14 +84,18 @@ function init() {
         spermModel = collada.scene;
 
         spermModel.position.x = 0;
-        spermModel.position.y = 5;
-        spermModel.position.z = -500;
+        spermModel.position.y = 0;
+        spermModel.position.z = -600;
 
         spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
+
         spermModel.updateMatrix();
+        spermModel.name = "spermModel";
 
         scene.add(spermModel);
     });
+
+    camera.position.distanceTo('spermModel');
 
     //still needs work
     //camera.lookAt(spermModel.position);
