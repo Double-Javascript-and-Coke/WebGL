@@ -79,8 +79,10 @@ function init() {
 
         scene.add(spermModel);
 
+        animate();
 
     });
+
 
     colladaLoaderEgg.load('res/models/egg.dae',function(collada) {
 
@@ -157,6 +159,9 @@ function animate() {
     }
 
     particle.update(tick);
+
+    spermModel.position.z = camera.position.z;
+
     update();
     render();
 
