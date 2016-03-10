@@ -27,6 +27,8 @@ function init() {
 
     scene = new THREE.Scene();
 
+    camera.position.set(0,0,50);
+
     particle = new THREE.GPUParticleSystem({maxParticles: 250000});
     scene.add(particle);
 
@@ -92,10 +94,16 @@ function init() {
         spermModel.updateMatrix();
         spermModel.name = "spermModel";
 
+        spermModel.traverse( function ( child ) {
+            if ( child instanceof THREE.SkinnedMesh ) {
+                var animation = new THREE.Animation( child, child.geometry.animation );
+                animation.play();
+            }
+        } );
+
+        spermModel.updateMatrix();
         scene.add(spermModel);
     });
-
-    camera.position.distanceTo('spermModel');
 
     //still needs work
     //camera.lookAt(spermModel.position);
@@ -140,22 +148,21 @@ function animate() {
 
 }
 
-function update()
-{
-    // update the FPS / stats counter
+function update(){
+
+    delta = clock.getDelta();
+
+    controls.update(delta);
     stats.update();
+
 }
 
 function render() {
 
     delta = clock.getDelta();
 
-    //debug
-    //console.log("Delta " + delta);
-
-    controls.update(delta);
+    THREE.AnimationHandler.update( clock.getDelta() );
 
     renderer.render(scene, camera);
-
 
 }
