@@ -77,10 +77,10 @@ function init() {
     light2.position.set(-1,-0.5,-1);
     scene.add(light2);
 
-    myColladaLoader = new THREE.ColladaLoader();
-    myColladaLoader.options.convertUpAxis = true;
+    colladaLoader = new THREE.ColladaLoader();
+    colladaLoader.options.convertUpAxis = true;
 
-    myColladaLoader.load('/res/models/sperm.dae',function(collada){
+    colladaLoader.load('/res/models/sperm.dae',function(collada){
         spermModel = collada.scene;
 
         spermModel.position.x = 0;
@@ -92,6 +92,12 @@ function init() {
 
         scene.add(spermModel);
     });
+
+    //still needs work
+    //camera.lookAt(spermModel.position);
+
+
+
 }
 
 
