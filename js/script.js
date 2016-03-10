@@ -74,7 +74,7 @@ function init() {
             }
         } );
 
-        spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 2;
+        spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 0.01;
         spermModel.updateMatrix();
 
         scene.add(spermModel);
@@ -107,7 +107,7 @@ function init() {
 
     // setup controls
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 10000;
+    controls.movementSpeed = 500;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
@@ -160,7 +160,12 @@ function animate() {
 
     particle.update(tick);
 
-    spermModel.position.z = camera.position.z;
+    spermModel.position.z =  camera.position.z - 5;
+    spermModel.position.y =  camera.position.y - 1;
+    spermModel.position.x =  camera.position.x;
+    console.log("Sperm position: " + spermModel.position.z);
+
+
 
     update();
     render();
@@ -184,7 +189,7 @@ function render() {
     var positionMovement = camera.position.y;
 
     //debug for movement
-    console.log(positionMovement);
+    console.log("Camera position " + positionMovement);
 
     controls.moveForward = false;
     controls.moveBackward = false;
