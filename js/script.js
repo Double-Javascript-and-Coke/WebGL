@@ -74,28 +74,25 @@ function init() {
         spermModel.position.y = 0;
         spermModel.position.z = -600;
 
-        daeAnimations = collada.animations;
-		keyFrameAnimationsLength = daeAnimations.length;
+        daeAnimations = spermModel.animations;
+	keyFrameAnimationsLength = daeAnimations.length;
 
-		// Initialise last frame current time.
-		for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
-		  	lastFrameCurrentTime[i] = 0;
-		}
+	// Initialise last frame current time.
+	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+	  	lastFrameCurrentTime[i] = 0;
+	}
 
-		// Get all the key frame animations.
-		for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
-			var animation = daeAnimations[ i ];
-
-			var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
-			keyFrameAnimation.timeScale = 1;
-			keyFrameAnimation.loop = false;
-			// Add the key frame animation to the keyFrameAnimations array.
-			keyFrameAnimations.push( keyFrameAnimation );
-		}
+	// Get all the key frame animations.
+	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+		var animation = daeAnimations[ i ];
+		var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
+		keyFrameAnimation.timeScale = 1;
+		keyFrameAnimation.loop = false;
+		// Add the key frame animation to the keyFrameAnimations array.
+		keyFrameAnimations.push( keyFrameAnimation );
+	}
 			
-			
-			
-		startAnimations();
+	startAnimations();
 		
         spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 0.01;
         spermModel.updateMatrix();
