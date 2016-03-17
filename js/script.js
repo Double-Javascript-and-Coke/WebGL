@@ -240,6 +240,8 @@ function render() {
     //if (intersects.length) {
     //    alert("collision");
     //};
+    
+    loopAnimations();
 
     THREE.AnimationHandler.update( clock.getDelta() );
     renderer.render(scene, camera);
@@ -252,8 +254,8 @@ function startAnimations(){
 	// Loop through all the animations.
 	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
 		// Get a key frame animation.
-		var animation = keyFrameAnimations[i];
-		animation.play();
+		var animationFrame = keyFrameAnimations[i];
+		animationFrame.play();
 	}
 }
 
