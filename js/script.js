@@ -13,6 +13,11 @@ var eggModel;
 var ray = new THREE.ReusableRay();
 var collisionObject = [];
 
+var daeAnimations;
+var keyFrameAnimations = [];
+var keyFrameAnimationsLength = 0;
+var lastFrameCurrentTime = [];
+
 init();
 animate();
 
@@ -69,13 +74,26 @@ function init() {
         spermModel.position.y = 0;
         spermModel.position.z = -600;
 
-        spermModel.traverse( function ( child ) {
-            if ( child instanceof THREE.SkinnedMesh ) {
-                var animation = new THREE.Animation( child, child.geometry.animation );
-                animation.play();
-            }
-        } );
+        daeAnimations = spermModel.animations;
+	keyFrameAnimationsLength = daeAnimations.length;
 
+	// Initialise last frame current time.
+	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+	  	lastFrameCurrentTime[i] = 0;
+	}
+
+	// Get all the key frame animations.
+	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+		var animation = daeAnimations[ i ];
+		var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
+		keyFrameAnimation.timeScale = 1;
+		keyFrameAnimation.loop = false;
+		// Add the key frame animation to the keyFrameAnimations array.
+		keyFrameAnimations.push( keyFrameAnimation );
+	}
+			
+	startAnimations();
+		
         spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 0.01;
         spermModel.updateMatrix();
 
@@ -227,5 +245,37 @@ function render() {
     renderer.render(scene, camera);
 
     requestAnimationFrame(animate);
+    
+    for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+	// Get a key frame animation.
+	var animationHandler = keyFrameAnimations[i];
+	animationHandler.update( deltaTime );
+    }
+    
+    loopAnimations();
 
+}
+
+function startAnimations(){
+	// Loop through all the animations.
+	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+		// Get a key frame animation.
+		var animationFrame = keyFrameAnimations[i];
+		animationFrame.play();
+	}
+}
+
+function loopAnimations(){
+	// Loop through all the animations.
+	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+		// Check if the animation is player and not paused.
+		if(keyFrameAnimations[i].isPlaying && !keyFrameAnimations[i].isPaused){
+			if(keyFrameAnimations[i].currentTime == lastFrameCurrentTime[i]) {
+				keyFrameAnimations[i].stop();
+				keyFrameAnimations[i].play();
+				lastFrameCurrentTime[i] = 0;
+			}
+		}
+
+	}
 }
