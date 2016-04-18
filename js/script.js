@@ -74,8 +74,8 @@ function init() {
         spermModel.position.y = 0;
         spermModel.position.z = -600;
 
-        daeAnimations = spermModel.animations;
-	keyFrameAnimationsLength = daeAnimations.length;
+      //  daeAnimations = spermModel.animations;
+	//keyFrameAnimationsLength = daeAnimations.length;
 
 	// Initialise last frame current time.
 	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
@@ -144,7 +144,7 @@ function init() {
 
     // setup controls
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 500;
+    controls.movementSpeed = 1000;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
