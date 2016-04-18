@@ -146,7 +146,7 @@ function init() {
 
     // setup controls
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 1500;
+    controls.movementSpeed = 1400;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
