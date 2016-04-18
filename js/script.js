@@ -10,6 +10,8 @@ var spawnOptions;
 var particle;
 var spermModel;
 var eggModel;
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
 var ray = new THREE.ReusableRay();
 var collisionObject = [];
 
@@ -118,7 +120,7 @@ function init() {
 
         eggModel.position.x = 0;
         eggModel.position.y = 0;
-        eggModel.position.z = -100;
+        eggModel.position.z = -5;
 
         eggModel.scale.x = eggModel.scale.y = eggModel.scale.z = 2;
         eggModel.updateMatrix();
@@ -144,7 +146,7 @@ function init() {
 
     // setup controls
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 1000;
+    controls.movementSpeed = 500;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
@@ -203,8 +205,8 @@ function animate() {
     spermModel.position.y =  camera.position.y - 1;
     spermModel.position.x =  camera.position.x;
 
-    console.log("Sperm position: " + spermModel.position.z);
-
+    //console.log("Sperm position: " + spermModel.position.z);
+    spermModel.rotation.z += 0.2;
     update();
     render();
 
@@ -227,7 +229,7 @@ function render() {
     var positionMovement = camera.position.y;
 
     //debug for movement
-    console.log("Camera position " + positionMovement);
+    //console.log("Camera position " + positionMovement);
 
     controls.moveForward = false;
     controls.moveBackward = false;
@@ -251,7 +253,14 @@ function render() {
 	var animationHandler = keyFrameAnimations[i];
 	animationHandler.update( deltaTime );
     }
-    
+
+    //
+    var intersections = raycaster.intersectObjects(collisionObject);
+    if(intersections.length > 0){
+        alert();
+    }
+    //
+
     loopAnimations();
 
 }
