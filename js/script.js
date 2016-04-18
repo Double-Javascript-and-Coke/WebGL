@@ -120,7 +120,7 @@ function init() {
 
         eggModel.position.x = 0;
         eggModel.position.y = 0;
-        eggModel.position.z = -5;
+        eggModel.position.z = -100;
 
         eggModel.scale.x = eggModel.scale.y = eggModel.scale.z = 2;
         eggModel.updateMatrix();
@@ -146,7 +146,7 @@ function init() {
 
     // setup controls
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 500;
+    controls.movementSpeed = 1500;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
