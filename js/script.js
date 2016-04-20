@@ -1,3 +1,4 @@
+
 window.onload = init;
 
 var container;
@@ -23,27 +24,11 @@ var mouseOverCanvas;
 var mouseDown;
 
 var controls;
-<<<<<<< HEAD
-var container;
-var particleOptions;
-var spawnOptions;
-var particle;
-var spermModel;
-var eggModel;
-var bacteria1;
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
-var ray = new THREE.ReusableRay();
-var collisionObject = [];
-
-var daeAnimations;
-=======
 
 var colladaLoader;
 var daeFile;
 
 var myDaeAnimations;
->>>>>>> animation
 var keyFrameAnimations = [];
 var keyFrameAnimationsLength = 0;
 var lastFrameCurrentTime = [];
@@ -100,75 +85,9 @@ function init() {
         timeScale: 0.1
     };
 
-<<<<<<< HEAD
-    colladaLoaderSperm = new THREE.ColladaLoader();
-    colladaLoaderEgg = new THREE.ColladaLoader();
-    colladaLoaderBacteria = new THREE.ColladaLoader();
-    colladaLoaderSperm.options.convertUpAxis = true;
-
-    colladaLoaderSperm.load('res/models/sperm.dae',function(collada){
-        spermModel = collada.scene;
-
-        spermModel.position.x = 0;
-        spermModel.position.y = 0;
-        spermModel.position.z = -600;
-
-      //  daeAnimations = spermModel.animations;
-	//keyFrameAnimationsLength = daeAnimations.length;
-
-	// Initialise last frame current time.
-	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
-	  	lastFrameCurrentTime[i] = 0;
-	}
-
-	// Get all the key frame animations.
-	for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
-		var animation = daeAnimations[ i ];
-		var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
-		keyFrameAnimation.timeScale = 1;
-		keyFrameAnimation.loop = false;
-		// Add the key frame animation to the keyFrameAnimations array.
-		keyFrameAnimations.push( keyFrameAnimation );
-	}
-			
-	startAnimations();
-		
-        spermModel.scale.x = spermModel.scale.y = spermModel.scale.z = 0.01;
-        spermModel.updateMatrix();
-
-        var mesh = spermModel.children.filter(function(child){
-            return child instanceof THREE.Mesh;
-        })[0];
-
-        spermModel.geometry = mesh.geometry;
-
-        collisionObject.push(spermModel);
-
-        scene.add(spermModel);
-
-        animate();
-
-    });
-
-    colladaLoaderEgg.load('res/models/egg.dae',function(collada) {
-
-        eggModel = collada.scene;
-
-        eggModel.position.x = 0;
-        eggModel.position.y = 0;
-        eggModel.position.z = -100;
-
-        eggModel.scale.x = eggModel.scale.y = eggModel.scale.z = 2;
-        eggModel.updateMatrix();
-
-        var mesh = eggModel.children.filter(function(child){
-            return child instanceof THREE.Mesh;
-        })[0];
-=======
     var light = new THREE.DirectionalLight(0xffffff, 5.5);
     light.position.set(1,1,1);
     scene.add(light);
->>>>>>> animation
 
     initScene();
 
@@ -181,26 +100,8 @@ function initScene() {
     colladaLoader.load('res/models/sperm.dae', function ( collada ) {
         daeFile = collada.scene;
 
-<<<<<<< HEAD
-    colladaLoaderBacteria.load('res/models/bacteria1.dae',function(collada) {
-
-        bacteria1 = collada.scene;
-
-        bacteria1.position.x = 0;
-        bacteria1.position.y = 0;
-        bacteria1.position.z = -50;
-
-        bacteria1.scale.x = bacteria1.scale.y = bacteria1.scale.z = 0.5;
-        bacteria1.updateMatrix();
-
-        scene.add(bacteria1);
-
-    });
-
-=======
         myDaeAnimations = collada.animations;
         keyFrameAnimationsLength = myDaeAnimations.length;
->>>>>>> animation
 
         for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
             lastFrameCurrentTime[i] = 0;
@@ -280,18 +181,6 @@ function render(){
 
     particle.update(tick);
 
-<<<<<<< HEAD
-    spermModel.position.z =  camera.position.z - 5;
-    spermModel.position.y =  camera.position.y - 1;
-    spermModel.position.x =  camera.position.x;
-
-
-    //console.log("Sperm position: " + spermModel.position.z);
-    spermModel.rotation.z += 0.2;
-    update();
-    render();
-=======
->>>>>>> animation
 
     loopAnimations();
 
