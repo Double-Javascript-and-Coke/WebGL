@@ -4,10 +4,10 @@
     <contributor>
       <author>jess</author>
       <authoring_tool>OpenCOLLADA for 3ds Max;  ;  </authoring_tool>
-      <source_data>sperm.max</source_data>
+      <source_data>file:///F:/year%203%20uni%20work/advanced%20multimedia%20authoring/export/sperm.max</source_data>
     </contributor>
-    <created>2016-04-20T20:07:33</created>
-    <modified>2016-04-20T20:07:33</modified>
+    <created>2016-04-20T20:26:13</created>
+    <modified>2016-04-20T20:26:13</modified>
     <unit name="inch" meter="0.0254"/>
     <up_axis>Z_UP</up_axis>
   </asset>
