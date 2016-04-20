@@ -27,6 +27,7 @@ var controls;
 
 var colladaLoader;
 var spermDae;
+var eggDae;
 
 var myDaeAnimations;
 var keyFrameAnimations = [];
@@ -118,17 +119,48 @@ function initScene() {
 
         spermDae.position.x = 0;
         spermDae.position.y = 3;
-        spermDae.position.z = 30;
+        spermDae.position.z = 100;
 
         spermDae.scale.x = spermDae.scale.y = spermDae.scale.z = 0.1;
         spermDae.updateMatrix();
 
         scene.add( spermDae );
-
         startAnimations();
 
-        render();
     } );
+
+    colladaLoader.load('res/models/egg.dae', function ( collada ) {
+        eggDae = collada.scene;
+
+        myDaeAnimations = collada.animations;
+        keyFrameAnimationsLength = myDaeAnimations.length;
+
+        for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+            lastFrameCurrentTime[i] = 0;
+        }
+
+        for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
+            var animation = myDaeAnimations[ i ];
+
+            var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
+            keyFrameAnimation.timeScale = 1;
+            keyFrameAnimation.loop = false;
+            keyFrameAnimations.push( keyFrameAnimation );
+        }
+
+        eggDae.position.x = 0;
+        eggDae.position.y = 3;
+        eggDae.position.z = 110;
+
+        eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 0.1;
+        eggDae.updateMatrix();
+
+        scene.add( eggDae );
+        startAnimations();
+
+    } );
+
+    render();
 }
 
 function startAnimations(){
