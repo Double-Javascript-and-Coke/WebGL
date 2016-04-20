@@ -58,7 +58,7 @@ function init() {
     camera.position.set(0, 0, 120);
 
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 50;
+    controls.movementSpeed = 30;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
     controls.autoForward = false;
@@ -87,10 +87,6 @@ function init() {
         timeScale: 0.1
     };
 
-    //**********************************************************************//
-
-    spermDae;
-    //**********************************************************************//
     initScene();
 
 }
@@ -162,7 +158,6 @@ function initScene() {
 
         scene.add( eggDae );
         startAnimations();
-
         render();
     } );
 }
@@ -195,6 +190,7 @@ function render(){/*
         }
     }*/
 
+
     var deltaTime = clock.getDelta();
 
     spermDae.position.x = camera.position.x-2;
@@ -221,6 +217,12 @@ function render(){/*
 
     }
 
+    camera.position.y = 0
+    controls.moveForward = false;
+    controls.moveBackward = false;
+    controls.moveLeft = false;
+    controls.moveRight = false;
+    camera.rotateX = 0;
 
     particle.update(tick);
 
