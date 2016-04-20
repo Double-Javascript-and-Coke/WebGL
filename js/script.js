@@ -26,7 +26,7 @@ var mouseDown;
 var controls;
 
 var colladaLoader;
-var daeFile;
+var spermDae;
 
 var myDaeAnimations;
 var keyFrameAnimations = [];
@@ -98,7 +98,7 @@ function initScene() {
     colladaLoader.options.convertUpAxis = true;
 
     colladaLoader.load('res/models/sperm.dae', function ( collada ) {
-        daeFile = collada.scene;
+        spermDae = collada.scene;
 
         myDaeAnimations = collada.animations;
         keyFrameAnimationsLength = myDaeAnimations.length;
@@ -116,14 +116,14 @@ function initScene() {
             keyFrameAnimations.push( keyFrameAnimation );
         }
 
-        daeFile.position.x = 0;
-        daeFile.position.y = 3;
-        daeFile.position.z = 30;
+        spermDae.position.x = 0;
+        spermDae.position.y = 3;
+        spermDae.position.z = 30;
 
-        daeFile.scale.x = daeFile.scale.y = daeFile.scale.z = 0.1;
-        daeFile.updateMatrix();
+        spermDae.scale.x = spermDae.scale.y = spermDae.scale.z = 0.1;
+        spermDae.updateMatrix();
 
-        scene.add( daeFile );
+        scene.add( spermDae );
 
         startAnimations();
 
