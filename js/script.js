@@ -28,6 +28,7 @@ var controls;
 var colladaLoader;
 var spermDae;
 var eggDae;
+var bacteriaDae;
 
 var myDaeAnimations;
 var keyFrameAnimations = [];
@@ -160,6 +161,21 @@ function initScene() {
         startAnimations();
         render();
     } );
+
+
+    colladaLoader.load('res/models/bacteria1.dae', function ( collada ) {
+        bacteriaDae = collada.scene;
+
+        bacteriaDae.position.x = 0;
+        bacteriaDae.position.y = -1;
+        bacteriaDae.position.z = -300;
+
+        bacteriaDae.scale.x = bacteriaDae.scale.y = bacteriaDae.scale.z = 1;
+        bacteriaDae.updateMatrix();
+
+        scene.add( bacteriaDae );
+        render();
+    } );
 }
 
 function startAnimations(){
@@ -217,6 +233,7 @@ function render(){/*
 
     }
 
+
     camera.position.y = 0
     controls.moveForward = false;
     controls.moveBackward = false;
@@ -237,4 +254,5 @@ function render(){/*
     for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
         lastFrameCurrentTime[i] = keyFrameAnimations[i].currentTime;
     }
+
 }
