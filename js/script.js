@@ -201,11 +201,11 @@ function render(){
 
     tick += deltaTime;
 
-    if (deltaTime > 0) {
+    if (deltaTime > 0) {/*
         particle.position.x = camera.position.x;
         particle.position.y = camera.position.y;
         particle.position.z = camera.position.z;
-
+*/
         for (var x = 0; x < spawnOptions.spawnRate * deltaTime; x++) {
             particle.spawnParticle(particleOptions);
         }
