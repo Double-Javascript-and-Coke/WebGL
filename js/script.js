@@ -163,7 +163,7 @@ function initScene() {
     } );
 
 
-    colladaLoader.load('res/models/bacteria1.dae', function ( collada ) {
+    colladaLoader.load('res/models/furbac.dae', function ( collada ) {
         bacteriaDae = collada.scene;
 
         bacteriaDae.position.x = 0;
