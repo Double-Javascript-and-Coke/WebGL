@@ -146,7 +146,7 @@ function init() {
         bacteria1.position.y = 0;
         bacteria1.position.z = -50;
 
-        bacteria1.scale.x = bacteria1.scale.y = bacteria1.scale.z = 2;
+        bacteria1.scale.x = bacteria1.scale.y = bacteria1.scale.z = 0.5;
         bacteria1.updateMatrix();
 
         scene.add(bacteria1);
