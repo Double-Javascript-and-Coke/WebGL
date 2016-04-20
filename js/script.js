@@ -34,6 +34,7 @@ var keyFrameAnimations = [];
 var keyFrameAnimationsLength = 0;
 var lastFrameCurrentTime = [];
 
+
 function init() {
 
     renderer = new THREE.WebGLRenderer();
@@ -57,10 +58,10 @@ function init() {
     camera.position.set(0, 0, 120);
 
     controls = new THREE.FlyControls(camera, container);
-    controls.movementSpeed = 1;
+    controls.movementSpeed = 50;
     controls.domElement = container;
     controls.rollSpeed = Math.PI / 24;
-    controls.autoForward = true;
+    controls.autoForward = false;
     controls.dragToLook = false;
 
     particle = new THREE.GPUParticleSystem({maxParticles: 250000});
@@ -86,10 +87,10 @@ function init() {
         timeScale: 0.1
     };
 
-    var light = new THREE.DirectionalLight(0xffffff, 5.5);
-    light.position.set(1,1,1);
-    scene.add(light);
+    //**********************************************************************//
 
+    spermDae;
+    //**********************************************************************//
     initScene();
 
 }
@@ -117,6 +118,10 @@ function initScene() {
             keyFrameAnimations.push( keyFrameAnimation );
         }
 
+        var light = new THREE.DirectionalLight(0xffffff, 1.2);
+        light.position.set(1,1,1);
+        scene.add(light);
+
         spermDae.position.x = 0;
         spermDae.position.y = 3;
         spermDae.position.z = 100;
@@ -126,7 +131,7 @@ function initScene() {
 
         scene.add( spermDae );
         startAnimations();
-
+        render();
     } );
 
     colladaLoader.load('res/models/egg.dae', function ( collada ) {
@@ -150,17 +155,16 @@ function initScene() {
 
         eggDae.position.x = 0;
         eggDae.position.y = 3;
-        eggDae.position.z = 110;
+        eggDae.position.z = -300;
 
-        eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 0.1;
+        eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 1;
         eggDae.updateMatrix();
 
         scene.add( eggDae );
         startAnimations();
 
+        render();
     } );
-
-    render();
 }
 
 function startAnimations(){
@@ -168,6 +172,7 @@ function startAnimations(){
         var animation = keyFrameAnimations[i];
         animation.play();
     }
+
 }
 
 function loopAnimations(){
@@ -183,14 +188,18 @@ function loopAnimations(){
     }
 }
 
-function render(){
+function render(){/*
     if(mouseOverCanvas){
         if(mouseDown){
             controls.activeLook = true;
         }
-    }
+    }*/
 
     var deltaTime = clock.getDelta();
+
+    spermDae.position.x = camera.position.x-2;
+    spermDae.position.y = camera.position.y-1;
+    spermDae.position.z = camera.position.z-30;
 
     controls.update( deltaTime );
 
@@ -201,18 +210,19 @@ function render(){
 
     tick += deltaTime;
 
-    if (deltaTime > 0) {/*
+    if (deltaTime > 0) {
         particle.position.x = camera.position.x;
         particle.position.y = camera.position.y;
         particle.position.z = camera.position.z;
-*/
+
         for (var x = 0; x < spawnOptions.spawnRate * deltaTime; x++) {
             particle.spawnParticle(particleOptions);
         }
+
     }
 
-    particle.update(tick);
 
+    particle.update(tick);
 
     loopAnimations();
 
