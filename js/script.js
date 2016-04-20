@@ -10,6 +10,7 @@ var spawnOptions;
 var particle;
 var spermModel;
 var eggModel;
+var bacteria1;
 var raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 var ray = new THREE.ReusableRay();
@@ -67,6 +68,7 @@ function init() {
 
     colladaLoaderSperm = new THREE.ColladaLoader();
     colladaLoaderEgg = new THREE.ColladaLoader();
+    colladaLoaderBacteria = new THREE.ColladaLoader();
     colladaLoaderSperm.options.convertUpAxis = true;
 
     colladaLoaderSperm.load('res/models/sperm.dae',function(collada){
@@ -113,7 +115,6 @@ function init() {
 
     });
 
-
     colladaLoaderEgg.load('res/models/egg.dae',function(collada) {
 
         eggModel = collada.scene;
@@ -134,6 +135,21 @@ function init() {
         collisionObject.push(eggModel);
 
         scene.add(eggModel);
+
+    });
+
+    colladaLoaderBacteria.load('res/models/bacteria1.dae',function(collada) {
+
+        bacteria1 = collada.scene;
+
+        bacteria1.position.x = 0;
+        bacteria1.position.y = 0;
+        bacteria1.position.z = -50;
+
+        bacteria1.scale.x = bacteria1.scale.y = bacteria1.scale.z = 0.5;
+        bacteria1.updateMatrix();
+
+        scene.add(bacteria1);
 
     });
 
@@ -204,6 +220,7 @@ function animate() {
     spermModel.position.z =  camera.position.z - 5;
     spermModel.position.y =  camera.position.y - 1;
     spermModel.position.x =  camera.position.x;
+
 
     //console.log("Sperm position: " + spermModel.position.z);
     spermModel.rotation.z += 0.2;
