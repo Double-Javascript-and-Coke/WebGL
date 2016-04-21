@@ -289,7 +289,6 @@ function render(){
 
 	// Check if need to loop animations. Call loopAnimations() after the
 	// animation handler update.
-	loopAnimations();
 	
 	// Render the scene.
 	renderer.render(scene, camera);

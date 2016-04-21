@@ -234,8 +234,13 @@ function render(){/*
     raycaster.ray.origin.copy(camera.position);
     var intersections = raycaster.intersectObjects(objects);
     if(intersections.length > 0){
-        console.log("HIT!");
+        console.log("Game won");
+    }
+
+    var badIntersections = raycaster.intersectObjects(badObjects);
+    if (badIntersections.length > 0){
         updateLives(decrease=true);
+        console.log("Hit of a bad object");
     }
 
 
