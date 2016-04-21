@@ -1,6 +1,3 @@
-
-window.onload = init;
-
 var container;
 
 var width = window.innerWidth;
@@ -42,6 +39,8 @@ var lives = 3;
 
 
 function init() {
+
+    document.getElementById('splash-container').style.display = 'none';
 
     renderer = new THREE.WebGLRenderer();
 

@@ -1,5 +1,10 @@
 body {
     overflow: hidden;
+    line-height: 0;
+}
+
+p {
+    line-height: 1.5;
 }
 
 .canvas-main {
@@ -15,9 +20,40 @@ body {
 
 #lives-container {
     width: auto;
-    font-family: 'Russo One';
+    font-family: 'Anton';
     font-size: 28px;
     background: none;
     position: absolute;
     color: #fff;
+}
+
+#splash-container {
+    width: 100%;
+    height: 100%;
+    background: rgb(51, 14, 14);
+    font-family: 'Anton';
+    font-size: 38px;
+    color: #fff;
+    position: absolute;
+    z-index: 999;
+}
+
+#splash-container h1 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 72px;
+}
+
+#splash-container h3 {
+    margin-top: 50px;
+    margin-bottom: 20px;
+    font-size: 50px;
+}
+
+#game-over-container {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    visibility: hidden;
+    position: relative;
 }
