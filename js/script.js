@@ -158,6 +158,8 @@ function initScene() {
         spermDae.updateMatrix();
 
         objects.push(spermDae);
+        badObjects.push(spermDae);
+
         scene.add( spermDae );
         startAnimations();
         render();
@@ -230,8 +232,21 @@ function render(){/*
         }
     }*/
 
+    var deltaTime = clock.getDelta();
+
+    spermDae.position.x = camera.position.x-2;
+    spermDae.position.y = camera.position.y-1;
+    spermDae.position.z = camera.position.z-30;
+
+    var matrix = new THREE.Matrix4();
+    matrix.extractRotation(camera.matrix);
+
+    var direction = new THREE.Vector3(0, 0, -1);
+    direction = direction.applyMatrix4(matrix);
 
     raycaster.ray.origin.copy(camera.position);
+    raycaster.ray.direction.copy(direction);
+
     var intersections = raycaster.intersectObjects(objects);
     if(intersections.length > 0){
         console.log("Game won");
@@ -242,13 +257,6 @@ function render(){/*
         updateLives(decrease=true);
         console.log("Hit of a bad object");
     }
-
-
-    var deltaTime = clock.getDelta();
-
-    spermDae.position.x = camera.position.x-2;
-    spermDae.position.y = camera.position.y-1;
-    spermDae.position.z = camera.position.z-30;
 
     controls.update( deltaTime );
 
