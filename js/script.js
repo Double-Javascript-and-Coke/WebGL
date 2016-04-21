@@ -157,6 +157,8 @@ function initScene() {
         spermDae.scale.x = spermDae.scale.y = spermDae.scale.z = 0.1;
         spermDae.updateMatrix();
 
+        spermDae.name = 'sperm';
+
         objects.push(spermDae);
         badObjects.push(spermDae);
 
@@ -190,6 +192,8 @@ function initScene() {
 
         eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 4;
         eggDae.updateMatrix();
+
+        eggDae.name = 'egg';
 
         objects.push(eggDae);
         scene.add( eggDae );
@@ -241,18 +245,18 @@ function render(){/*
     var matrix = new THREE.Matrix4();
     matrix.extractRotation(camera.matrix);
 
-    var direction = new THREE.Vector3(0, -1, 0);
+    var direction = new THREE.Vector3(0, 0, -1);
     direction = direction.applyMatrix4(matrix);
 
     raycaster.ray.origin.copy(camera.position);
     raycaster.ray.direction.copy(direction);
 
-    var intersections = raycaster.intersectObjects(objects);
+    var intersections = raycaster.intersectObjects(objects, true);
     if(intersections.length > 0){
         console.log("Game won");
     }
 
-    var badIntersections = raycaster.intersectObjects(badObjects);
+    var badIntersections = raycaster.intersectObjects(badObjects, true);
     if (badIntersections.length > 0){
         updateLives(decrease=true);
         console.log("Hit of a bad object");
@@ -327,6 +331,8 @@ function colladaBuilder(){
         bacteriaDae[0].scale.x = bacteriaDae[0].scale.y = bacteriaDae[0].scale.z = 1;
         bacteriaDae[0].updateMatrix();
 
+        bacteriaDae[0].name = 'bacteria0';
+
         scene.add( bacteriaDae[0] );
         render();
     } );
@@ -340,6 +346,8 @@ function colladaBuilder(){
 
         bacteriaDae[1].scale.x = bacteriaDae[1].scale.y = bacteriaDae[1].scale.z = 1;
         bacteriaDae[1].updateMatrix();
+
+        bacteriaDae[1].name = 'bacteria1';
 
         scene.add( bacteriaDae[1] );
         render();
@@ -355,6 +363,8 @@ function colladaBuilder(){
         bacteriaDae[2].scale.x = bacteriaDae[2].scale.y = bacteriaDae[2].scale.z = 1;
         bacteriaDae[2].updateMatrix();
 
+        bacteriaDae[2].name = 'bacteria2';
+
         scene.add( bacteriaDae[2] );
         render();
     } );
@@ -369,6 +379,8 @@ function colladaBuilder(){
         bacteriaDae[3].scale.x = bacteriaDae[3].scale.y = bacteriaDae[3].scale.z = 1;
         bacteriaDae[3].updateMatrix();
 
+        bacteriaDae[3].name = 'bacteria3';
+
         scene.add( bacteriaDae[3] );
         render();
     } );
@@ -382,6 +394,8 @@ function colladaBuilder(){
 
         bacteriaDae[4].scale.x = bacteriaDae[4].scale.y = bacteriaDae[4].scale.z = 1;
         bacteriaDae[4].updateMatrix();
+
+        bacteriaDae[4].name = 'bacteria4';
 
         scene.add( bacteriaDae[4] );
         render();
