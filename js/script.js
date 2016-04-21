@@ -11,6 +11,8 @@ var aspect_ratio = width / height;
 var near_clipping_plane = 0.1;
 var far_clipping_plane = 10000;
 
+var raycaster;
+
 var renderer;
 var scene;
 var camera;
@@ -29,11 +31,13 @@ var colladaLoader;
 var spermDae;
 var eggDae;
 var bacteriaDae = [];
+var objects = [];
 
 var myDaeAnimations;
 var keyFrameAnimations = [];
 var keyFrameAnimationsLength = 0;
 var lastFrameCurrentTime = [];
+
 
 
 function init() {
@@ -88,6 +92,8 @@ function init() {
         timeScale: 0.1
     };
 
+    raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, -1), 0, 10);
+
     initScene();
 
 }
@@ -126,6 +132,7 @@ function initScene() {
         spermDae.scale.x = spermDae.scale.y = spermDae.scale.z = 0.1;
         spermDae.updateMatrix();
 
+        objects.push(spermDae);
         scene.add( spermDae );
         startAnimations();
         render();
@@ -157,13 +164,14 @@ function initScene() {
         eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 4;
         eggDae.updateMatrix();
 
+        objects.push(eggDae);
         scene.add( eggDae );
         startAnimations();
         render();
     } );
 
-
     colladaBuilder();
+
 }
 
 function startAnimations(){
@@ -195,6 +203,13 @@ function render(){/*
     }*/
 
 
+    raycaster.ray.origin.copy(camera.position);
+    var intersections = raycaster.intersectObjects(objects);
+    if(intersections.length > 0){
+        console.log("HIT!");
+    }
+
+
     var deltaTime = clock.getDelta();
 
     spermDae.position.x = camera.position.x-2;
@@ -224,7 +239,9 @@ function render(){/*
         if(bacteriaDae[i].position.z > spermDae.position.z+150){
             bacteriaDae[i].position.z = spermDae.position.z-400;
             var generateRes = Math.floor(Math.random() * 54) + -53;
+            var generateyRes = Math.floor(Math.random() * 5) + -5;
             bacteriaDae[i].position.x = spermDae.position.x + generateRes;
+            bacteriaDae[i].position.y = spermDae.position.y + generateyRes;
         }else{
             var bacSpeed = Math.floor(Math.random() * 8) + 2;
             bacteriaDae[i].position.z += bacSpeed;
