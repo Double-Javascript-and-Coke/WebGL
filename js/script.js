@@ -407,6 +407,7 @@ function colladaBuilder(){
     badObjects.push.apply(objects, bacteriaDae[2]);
     badObjects.push.apply(objects, bacteriaDae[3]);
     badObjects.push.apply(objects, bacteriaDae[4]);
+    badObjects.push.apply(objects, bacteriaDae[5]);
 
 }
 
