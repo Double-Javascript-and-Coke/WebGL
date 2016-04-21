@@ -241,7 +241,7 @@ function render(){/*
     var matrix = new THREE.Matrix4();
     matrix.extractRotation(camera.matrix);
 
-    var direction = new THREE.Vector3(0, 0, -1);
+    var direction = new THREE.Vector3(0, -1, 0);
     direction = direction.applyMatrix4(matrix);
 
     raycaster.ray.origin.copy(camera.position);
@@ -384,6 +384,20 @@ function colladaBuilder(){
         bacteriaDae[4].updateMatrix();
 
         scene.add( bacteriaDae[4] );
+        render();
+    } );
+
+    colladaLoader.load('res/models/ugly-bacteria.dae', function ( collada ) {
+        bacteriaDae[5] = collada.scene;
+
+        bacteriaDae[5].position.x = 40;
+        bacteriaDae[5].position.y = -1;
+        bacteriaDae[5].position.z = 63;
+
+        bacteriaDae[5].scale.x = bacteriaDae[5].scale.y = bacteriaDae[5].scale.z = 1;
+        bacteriaDae[5].updateMatrix();
+
+        scene.add( bacteriaDae[5] );
         render();
     } );
 
