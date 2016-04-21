@@ -209,6 +209,7 @@ function render(){/*
     var intersections = raycaster.intersectObjects(objects);
     if(intersections.length > 0){
         console.log("HIT!");
+        updateLives(decrease=true);
     }
 
 
@@ -369,4 +370,13 @@ function updateLives(decrease){
         livesNo.innerHTML = livesNo.innerHTML +' <i class="fa fa-heart" aria-hidden="true"></i>';
     }
 
+    if (lives==0){
+        gameOver();
+    }
+
+}
+
+function gameOver(){
+    document.getElementById('game-over-container').style.visibility = 'visible';
+    document.getElementById('main-container').style.visibility = 'hidden';
 }
