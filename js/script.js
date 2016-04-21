@@ -28,7 +28,7 @@ var controls;
 var colladaLoader;
 var spermDae;
 var eggDae;
-var bacteriaDae;
+var bacteriaDae = [];
 
 var myDaeAnimations;
 var keyFrameAnimations = [];
@@ -163,19 +163,7 @@ function initScene() {
     } );
 
 
-    colladaLoader.load('res/models/bacteria.dae', function ( collada ) {
-        bacteriaDae = collada.scene;
-
-        bacteriaDae.position.x = 0;
-        bacteriaDae.position.y = -1;
-        bacteriaDae.position.z = -300;
-
-        bacteriaDae.scale.x = bacteriaDae.scale.y = bacteriaDae.scale.z = 1;
-        bacteriaDae.updateMatrix();
-
-        scene.add( bacteriaDae );
-        render();
-    } );
+    colladaBuilder();
 }
 
 function startAnimations(){
@@ -232,14 +220,17 @@ function render(){/*
         }
 
     }
-
-    if(bacteriaDae.position.z > spermDae.position.z+150){
-        bacteriaDae.position.z = spermDae.position.z-500;
-        var generateRes = Math.floor(Math.random() * 50) + -50
-        bacteriaDae.position.x = spermDae.position.x + generateRes;
-    }else{
-        bacteriaDae.position.z +=5;
+    for(var i = 0; i < bacteriaDae.length; i++){
+        if(bacteriaDae[i].position.z > spermDae.position.z+150){
+            bacteriaDae[i].position.z = spermDae.position.z-400;
+            var generateRes = Math.floor(Math.random() * 34) + -23
+            bacteriaDae[i].position.x = spermDae.position.x + generateRes;
+        }else{
+            var bacSpeed = 2;
+            bacteriaDae[i].position.z += bacSpeed;
+        }
     }
+
 
     camera.position.y = 0
     controls.moveForward = false;
@@ -262,4 +253,50 @@ function render(){/*
         lastFrameCurrentTime[i] = keyFrameAnimations[i].currentTime;
     }
 
+}
+
+
+function colladaBuilder(){
+
+    colladaLoader.load('res/models/bacteria.dae', function ( collada ) {
+        bacteriaDae[0] = collada.scene;
+
+        bacteriaDae[0].position.x = 0;
+        bacteriaDae[0].position.y = -1;
+        bacteriaDae[0].position.z = -15;
+
+        bacteriaDae[0].scale.x = bacteriaDae[0].scale.y = bacteriaDae[0].scale.z = 1;
+        bacteriaDae[0].updateMatrix();
+
+        scene.add( bacteriaDae[0] );
+        render();
+    } );
+
+    colladaLoader.load('res/models/bacteria.dae', function ( collada ) {
+        bacteriaDae[1] = collada.scene;
+
+        bacteriaDae[1].position.x = 20;
+        bacteriaDae[1].position.y = -1;
+        bacteriaDae[1].position.z = -150;
+
+        bacteriaDae[1].scale.x = bacteriaDae[1].scale.y = bacteriaDae[1].scale.z = 1;
+        bacteriaDae[1].updateMatrix();
+
+        scene.add( bacteriaDae[1] );
+        render();
+    } );
+
+    colladaLoader.load('res/models/bacteria.dae', function ( collada ) {
+        bacteriaDae[2] = collada.scene;
+
+        bacteriaDae[2].position.x = 40;
+        bacteriaDae[2].position.y = -1;
+        bacteriaDae[2].position.z = -523;
+
+        bacteriaDae[2].scale.x = bacteriaDae[2].scale.y = bacteriaDae[2].scale.z = 1;
+        bacteriaDae[2].updateMatrix();
+
+        scene.add( bacteriaDae[2] );
+        render();
+    } );
 }
