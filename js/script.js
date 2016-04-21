@@ -157,13 +157,13 @@ function initScene() {
         eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 1;
         eggDae.updateMatrix();
 
-        scene.add( eggDae );
+        //scene.add( eggDae );
         startAnimations();
         render();
     } );
 
 
-    colladaLoader.load('res/models/furbac.dae', function ( collada ) {
+    colladaLoader.load('res/models/bacteria.dae', function ( collada ) {
         bacteriaDae = collada.scene;
 
         bacteriaDae.position.x = 0;
@@ -233,6 +233,13 @@ function render(){/*
 
     }
 
+    if(bacteriaDae.position.z > spermDae.position.z+150){
+        bacteriaDae.position.z = spermDae.position.z-500;
+        var generateRes = Math.floor(Math.random() * 50) + -50
+        bacteriaDae.position.x = spermDae.position.x + generateRes;
+    }else{
+        bacteriaDae.position.z +=5;
+    }
 
     camera.position.y = 0
     controls.moveForward = false;
