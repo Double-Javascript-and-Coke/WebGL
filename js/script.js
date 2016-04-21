@@ -1,8 +1,10 @@
+//set the bounds
 var container;
 
 var width = window.innerWidth;
 var height = window.innerHeight;
 
+//camera angles and respective views
 var view_angle = 45;
 var aspect_ratio = width / height;
 var near_clipping_plane = 0.1;
@@ -10,38 +12,49 @@ var far_clipping_plane = 10000;
 
 var raycaster;
 
+//scene and scene logic
 var renderer;
 var scene;
 var camera;
 
+//fps tracking
 var stats;
 
+//game loop
 var clock = new THREE.Clock();
 var tick = 0;
 
+//controls
 var mouseOverCanvas;
 var mouseDown;
-
 var controls;
 
+//models
 var colladaLoader;
 var spermDae;
 var eggDae;
 var bacteriaDae = [];
-var objects = [];
 
-var myDaeAnimations;
+//collision tracking
+var objects = [];
+var badObjects = [];
+
+//animation handling
+var daeAnimations;
 var keyFrameAnimations = [];
 var keyFrameAnimationsLength = 0;
 var lastFrameCurrentTime = [];
 
+//life trackng
 var lives = 3;
 
 
 function init() {
 
+    //start the game and remove the splash screen
     document.getElementById('splash-container').style.display = 'none';
 
+    //begin rendering
     renderer = new THREE.WebGLRenderer();
 
     container = document.getElementById('main-container');
@@ -50,6 +63,7 @@ function init() {
     renderer.setClearColor( "rgb(51, 14, 14)", 1);
     renderer.setSize(width, height);
 
+    //setup stats
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
@@ -59,10 +73,11 @@ function init() {
 
     scene = new THREE.Scene();
 
+    //camera initilisation
     camera = new THREE.PerspectiveCamera(view_angle, aspect_ratio, near_clipping_plane, far_clipping_plane);
-
     camera.position.set(0, 0, 120);
 
+    //controls initilisation
     controls = new THREE.FlyControls(camera, container);
     controls.movementSpeed = 30;
     controls.domElement = container;
@@ -70,6 +85,7 @@ function init() {
     controls.autoForward = false;
     controls.dragToLook = false;
 
+    //particle effects
     particle = new THREE.GPUParticleSystem({maxParticles: 250000});
     scene.add(particle);
 
@@ -93,29 +109,35 @@ function init() {
         timeScale: 0.1
     };
 
+    //setup collision tracking with raycasting
     raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, -1), 0, 10);
 
+    //initialise life tracking
     updateLives();
+
+    //call and iniitalise scene
     initScene();
 
 }
 
 function initScene() {
+
+    //load models
     colladaLoader = new THREE.ColladaLoader();
     colladaLoader.options.convertUpAxis = true;
 
     colladaLoader.load('res/models/sperm.dae', function ( collada ) {
         spermDae = collada.scene;
 
-        myDaeAnimations = collada.animations;
-        keyFrameAnimationsLength = myDaeAnimations.length;
+        daeAnimations = collada.animations;
+        keyFrameAnimationsLength = daeAnimations.length;
 
         for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
             lastFrameCurrentTime[i] = 0;
         }
 
         for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
-            var animation = myDaeAnimations[ i ];
+            var animation = daeAnimations[ i ];
 
             var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
             keyFrameAnimation.timeScale = 1;
@@ -123,6 +145,7 @@ function initScene() {
             keyFrameAnimations.push( keyFrameAnimation );
         }
 
+        //set lighting
         var light = new THREE.DirectionalLight(0xffffff, 1.2);
         light.position.set(1,1,1);
         scene.add(light);
@@ -143,15 +166,15 @@ function initScene() {
     colladaLoader.load('res/models/egg.dae', function ( collada ) {
         eggDae = collada.scene;
 
-        myDaeAnimations = collada.animations;
-        keyFrameAnimationsLength = myDaeAnimations.length;
+        daeAnimations = collada.animations;
+        keyFrameAnimationsLength = daeAnimations.length;
 
         for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
             lastFrameCurrentTime[i] = 0;
         }
 
         for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
-            var animation = myDaeAnimations[ i ];
+            var animation = daeAnimations[ i ];
 
             var keyFrameAnimation = new THREE.KeyFrameAnimation( animation );
             keyFrameAnimation.timeScale = 1;
@@ -172,10 +195,12 @@ function initScene() {
         render();
     } );
 
+    //build bacteria models
     colladaBuilder();
 
 }
 
+//start animations
 function startAnimations(){
     for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
         var animation = keyFrameAnimations[i];
@@ -184,6 +209,7 @@ function startAnimations(){
 
 }
 
+//loop animations
 function loopAnimations(){
     for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
         if(keyFrameAnimations[i].isPlaying && !keyFrameAnimations[i].isPaused){
@@ -349,16 +375,16 @@ function colladaBuilder(){
     } );
 
     //collisions with bacteria
-    objects.push.apply(objects, bacteriaDae[0]);
-    objects.push.apply(objects, bacteriaDae[1]);
-    objects.push.apply(objects, bacteriaDae[2]);
-    objects.push.apply(objects, bacteriaDae[3]);
-    objects.push.apply(objects, bacteriaDae[4]);
+    badObjects.push.apply(objects, bacteriaDae[0]);
+    badObjects.push.apply(objects, bacteriaDae[1]);
+    badObjects.push.apply(objects, bacteriaDae[2]);
+    badObjects.push.apply(objects, bacteriaDae[3]);
+    badObjects.push.apply(objects, bacteriaDae[4]);
 
 }
 
 function updateLives(decrease){
-
+    // update the lives display, reduce lives if decrease is passed
     var livesNo = document.getElementById('lives-no');
     livesNo.innerHTML = '';
 
@@ -371,12 +397,14 @@ function updateLives(decrease){
     }
 
     if (lives==0){
+        //if you manage to get here, you have officially lost the game
         gameOver();
     }
 
 }
 
 function gameOver(){
+    //show the game over screen and prevent the game from continuing
     document.getElementById('game-over-container').style.visibility = 'visible';
     document.getElementById('main-container').style.visibility = 'hidden';
 }
