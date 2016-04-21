@@ -223,10 +223,10 @@ function render(){/*
     for(var i = 0; i < bacteriaDae.length; i++){
         if(bacteriaDae[i].position.z > spermDae.position.z+150){
             bacteriaDae[i].position.z = spermDae.position.z-400;
-            var generateRes = Math.floor(Math.random() * 34) + -23
+            var generateRes = Math.floor(Math.random() * 54) + -53;
             bacteriaDae[i].position.x = spermDae.position.x + generateRes;
         }else{
-            var bacSpeed = 2;
+            var bacSpeed = Math.floor(Math.random() * 8) + 2;
             bacteriaDae[i].position.z += bacSpeed;
         }
     }
@@ -277,7 +277,7 @@ function colladaBuilder(){
 
         bacteriaDae[1].position.x = 20;
         bacteriaDae[1].position.y = -1;
-        bacteriaDae[1].position.z = -150;
+        bacteriaDae[1].position.z = -753;
 
         bacteriaDae[1].scale.x = bacteriaDae[1].scale.y = bacteriaDae[1].scale.z = 1;
         bacteriaDae[1].updateMatrix();
@@ -297,6 +297,34 @@ function colladaBuilder(){
         bacteriaDae[2].updateMatrix();
 
         scene.add( bacteriaDae[2] );
+        render();
+    } );
+
+    colladaLoader.load('res/models/furbac.dae', function ( collada ) {
+        bacteriaDae[3] = collada.scene;
+
+        bacteriaDae[3].position.x = 40;
+        bacteriaDae[3].position.y = -1;
+        bacteriaDae[3].position.z = -150;
+
+        bacteriaDae[3].scale.x = bacteriaDae[3].scale.y = bacteriaDae[3].scale.z = 1;
+        bacteriaDae[3].updateMatrix();
+
+        scene.add( bacteriaDae[3] );
+        render();
+    } );
+
+    colladaLoader.load('res/models/furbac.dae', function ( collada ) {
+        bacteriaDae[4] = collada.scene;
+
+        bacteriaDae[4].position.x = 40;
+        bacteriaDae[4].position.y = -1;
+        bacteriaDae[4].position.z = -3;
+
+        bacteriaDae[4].scale.x = bacteriaDae[4].scale.y = bacteriaDae[4].scale.z = 1;
+        bacteriaDae[4].updateMatrix();
+
+        scene.add( bacteriaDae[4] );
         render();
     } );
 }
