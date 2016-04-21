@@ -38,6 +38,7 @@ var keyFrameAnimations = [];
 var keyFrameAnimationsLength = 0;
 var lastFrameCurrentTime = [];
 
+var lives = 3;
 
 
 function init() {
@@ -53,6 +54,7 @@ function init() {
     stats = new Stats();
     stats.domElement.style.position = 'absolute';
     stats.domElement.style.top = '0px';
+    stats.domElement.style.right = '0px';
     stats.domElement.style.zIndex = 100;
     container.appendChild( stats.domElement );
 
@@ -94,6 +96,7 @@ function init() {
 
     raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, -1), 0, 10);
 
+    updateLives();
     initScene();
 
 }
@@ -344,4 +347,27 @@ function colladaBuilder(){
         scene.add( bacteriaDae[4] );
         render();
     } );
+
+    //collisions with bacteria
+    objects.push.apply(objects, bacteriaDae[0]);
+    objects.push.apply(objects, bacteriaDae[1]);
+    objects.push.apply(objects, bacteriaDae[2]);
+    objects.push.apply(objects, bacteriaDae[3]);
+    objects.push.apply(objects, bacteriaDae[4]);
+
+}
+
+function updateLives(decrease){
+
+    var livesNo = document.getElementById('lives-no');
+    livesNo.innerHTML = '';
+
+    if (decrease != undefined){
+        lives = lives - 1;
+    }
+
+    for (i = 0; i < lives; i++) {
+        livesNo.innerHTML = livesNo.innerHTML +' <i class="fa fa-heart" aria-hidden="true"></i>';
+    }
+
 }

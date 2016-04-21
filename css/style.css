@@ -12,3 +12,12 @@ body {
     max-width: 100%;
     min-height: 600px;
 }
+
+#lives-container {
+    width: auto;
+    font-family: 'Russo One';
+    font-size: 28px;
+    background: none;
+    position: absolute;
+    color: #fff;
+}
