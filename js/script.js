@@ -152,12 +152,12 @@ function initScene() {
 
         eggDae.position.x = 0;
         eggDae.position.y = 3;
-        eggDae.position.z = -300;
+        eggDae.position.z = -1000;
 
-        eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 1;
+        eggDae.scale.x = eggDae.scale.y = eggDae.scale.z = 4;
         eggDae.updateMatrix();
 
-        //scene.add( eggDae );
+        scene.add( eggDae );
         startAnimations();
         render();
     } );
