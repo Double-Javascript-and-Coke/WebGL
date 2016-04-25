@@ -10,7 +10,8 @@ var aspect_ratio = width / height;
 var near_clipping_plane = 0.1;
 var far_clipping_plane = 10000;
 
-var raycaster;
+var raycasterSperm;
+var raycasterEgg;
 
 //scene and scene logic
 var renderer;
@@ -48,6 +49,9 @@ var lastFrameCurrentTime = [];
 //life trackng
 var lives = 3;
 
+//time out
+var timeOut = true;
+var tempTick = 0;
 
 function init() {
 
@@ -110,7 +114,9 @@ function init() {
     };
 
     //setup collision tracking with raycasting
-    raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, -1), 0, 10);
+    raycasterSperm = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(-1, 0, 0), -10, 24);
+    raycasterEgg = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, 0, 0), -10, 24);
+
 
     //initialise life tracking
     updateLives();
@@ -238,31 +244,40 @@ function render(){/*
 
     var deltaTime = clock.getDelta();
 
+    camera.position.z += -1;
     spermDae.position.x = camera.position.x-2;
     spermDae.position.y = camera.position.y-1;
     spermDae.position.z = camera.position.z-30;
+console.log(camera.position.z);
 
+    if(spermDae.position.z < -870){
+        gameWon();
+    }
     var matrix = new THREE.Matrix4();
     matrix.extractRotation(camera.matrix);
 
     var direction = new THREE.Vector3(0, 0, -1);
     direction = direction.applyMatrix4(matrix);
 
-    raycaster.ray.origin.copy(camera.position);
-    raycaster.ray.direction.copy(direction);
+    raycasterSperm.ray.origin.copy(spermDae.position);
+    raycasterSperm.ray.direction.copy(direction);
+    raycasterEgg.ray.origin.copy(spermDae.position);
+    raycasterEgg.ray.direction.copy(direction);
 
-    var intersections = raycaster.intersectObjects(objects, true);
+    var intersections = raycasterEgg.intersectObjects(objects, true);
     if(intersections.length > 0){
         console.log("Game won");
+        //gameWon();
     }
 
-    var badIntersections = raycaster.intersectObjects(badObjects, true);
+    var badIntersections = raycasterSperm.intersectObjects(badObjects, true);
     if (badIntersections.length > 0){
-        updateLives(decrease=true);
+        if(timeOut == true){
+            updateLives(decrease=true);
+            timeOut = false;
+        }
         console.log("Hit of a bad object");
     }
-
-    controls.update( deltaTime );
 
     for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
         var animation = keyFrameAnimations[i];
@@ -270,6 +285,16 @@ function render(){/*
     }
 
     tick += deltaTime;
+
+    if(timeOut == false){
+        if(tempTick == 0){
+            tempTick += tick;
+            if(tempTick > 3){
+                timeOut = true;
+                tempTick = 0;
+            }
+        }
+    }
 
     if (deltaTime > 0) {
         particle.position.x = camera.position.x;
@@ -401,7 +426,7 @@ function colladaBuilder(){
         render();
     } );
 
-    colladaLoader.load('res/models/ugly-bacteria.dae', function ( collada ) {
+    colladaLoader.load('res/models/ugly-bacteria-1.dae', function ( collada ) {
         bacteriaDae[5] = collada.scene;
 
         bacteriaDae[5].position.x = 40;
@@ -448,5 +473,10 @@ function updateLives(decrease){
 function gameOver(){
     //show the game over screen and prevent the game from continuing
     document.getElementById('game-over-container').style.visibility = 'visible';
+    document.getElementById('main-container').style.visibility = 'hidden';
+}
+
+function gameWon() {
+    document.getElementById('game-won-container').style.visibility = 'visible';
     document.getElementById('main-container').style.visibility = 'hidden';
 }
