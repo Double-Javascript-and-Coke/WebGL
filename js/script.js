@@ -236,11 +236,11 @@ function loopAnimations(){
 }
 
 function render(){/*
-    if(mouseOverCanvas){
-        if(mouseDown){
-            controls.activeLook = true;
-        }
-    }*/
+ if(mouseOverCanvas){
+ if(mouseDown){
+ controls.activeLook = true;
+ }
+ }*/
 
     var deltaTime = clock.getDelta();
 
@@ -248,7 +248,6 @@ function render(){/*
     spermDae.position.x = camera.position.x-2;
     spermDae.position.y = camera.position.y-1;
     spermDae.position.z = camera.position.z-30;
-console.log(camera.position.z);
 
     if(spermDae.position.z < -870){
         gameWon();
@@ -278,6 +277,7 @@ console.log(camera.position.z);
         }
         console.log("Hit of a bad object");
     }
+    controls.update( deltaTime );
 
     for ( var i = 0; i < keyFrameAnimationsLength; i++ ) {
         var animation = keyFrameAnimations[i];
@@ -288,8 +288,9 @@ console.log(camera.position.z);
 
     if(timeOut == false){
         if(tempTick == 0){
-            tempTick += tick;
-            if(tempTick > 3){
+            tempTick = tick;
+        }else{
+            if(tick > tempTick + 3){
                 timeOut = true;
                 tempTick = 0;
             }
@@ -426,7 +427,7 @@ function colladaBuilder(){
         render();
     } );
 
-    colladaLoader.load('res/models/ugly-bacteria-1.dae', function ( collada ) {
+    colladaLoader.load('res/models/ugly-bacteria.dae', function ( collada ) {
         bacteriaDae[5] = collada.scene;
 
         bacteriaDae[5].position.x = 40;
